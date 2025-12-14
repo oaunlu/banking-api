@@ -1,4 +1,4 @@
-package com.banking.api.model;
+package com.banking.api.entity;
 
 public enum TransactionStatus {
     SUCCESS("SUCCESS"),

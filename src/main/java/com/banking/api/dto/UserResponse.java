@@ -1,13 +1,12 @@
-package com.banking.api.model;
+package com.banking.api.dto;
 
 import java.time.LocalDateTime;
 
-public record User(
+public record UserResponse(
         String id,
         String username,
-        String password,
         String email,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        String roles
 ) {
 }

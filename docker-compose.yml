@@ -1,0 +1,39 @@
+services:
+  banking-db:
+    image: mysql:8
+    container_name: banking-db
+    env_file:
+      - src/main/resources/.env/docker.env
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./src/main/resources/db/:/docker-entrypoint-initdb.d
+    ports:
+      - '3306:3306'
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+    networks:
+      - banking-network
+
+  banking-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: banking-api
+    depends_on:
+      banking-db:
+        condition: service_healthy
+    env_file:
+      - src/main/resources/.env/docker.env
+    ports:
+      - '8080:8080'
+    networks:
+      - banking-network
+
+volumes:
+  mysql_data:
+
+networks:
+  banking-network:
+    driver: bridge

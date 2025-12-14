@@ -1,6 +1,6 @@
 package com.banking.api.controller;
 
-import com.banking.api.model.Transaction;
+import com.banking.api.entity.Transaction;
 import com.banking.api.service.TransactionService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

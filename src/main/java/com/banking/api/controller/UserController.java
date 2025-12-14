@@ -1,8 +1,13 @@
 package com.banking.api.controller;
 
-import com.banking.api.model.User;
+import com.banking.api.dto.UserRegistrationRequest;
+import com.banking.api.dto.UserResponse;
+import com.banking.api.dto.AuthRequest;
+import com.banking.api.dto.LoginResponse;
 import com.banking.api.service.UserService;
-import org.springframework.security.oauth2.jwt.Jwt;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,21 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "Users", description = "User authentication and registration endpoints")
 public class UserController {
 
     private final UserService userService;
 
-    public  UserController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping("/register")
-    public User registerUser(@RequestBody User user) {
-        return userService.register(user);
+    @Operation(summary = "Register User", description = "Creates a new user account with the provided credentials")
+    public UserResponse registerUser(@Valid @RequestBody UserRegistrationRequest request) {
+        return userService.register(request);
     }
 
     @PostMapping("/login")
-    public Jwt loginUser(@RequestBody User user) {
-        return userService.login(user);
+    @Operation(summary = "Login User", description = "Authenticates a user and returns a JWT token with expiration details")
+    public LoginResponse loginUser(@RequestBody AuthRequest authRequest) {
+        return userService.login(authRequest);
     }
 }
