@@ -39,6 +39,7 @@ public class TransactionController {
     }
 
     @GetMapping("/account/{accountId}")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "View Transaction History", description = """
             Retrieves the transaction history for a specified account.
             Access is restricted to the account owner.""")

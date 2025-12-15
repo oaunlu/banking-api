@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,12 +33,14 @@ public class AccountController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create Account", description = "Creates a new bank account for the authenticated user")
     public AccountResponse createAccount(@Valid @RequestBody AccountRequest request) {
         return accountService.createAccount(request);
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Search Accounts", description = "Search accounts for the authenticated user. Filterable by account number and name")
     public List<AccountResponse> searchAccounts(
             @Parameter(description = "Account number filter") @RequestParam(required = false) String number,
@@ -45,6 +49,7 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get Account by ID", description = "Retrieves a specific account by its ID")
     public AccountResponse getAccountById(
             @Parameter(description = "Account ID") @PathVariable String id) {
@@ -52,6 +57,7 @@ public class AccountController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update Account", description = "Updates an existing account")
     public AccountResponse updateAccount(@Parameter(description = "Account ID") @PathVariable String id,
                                          @Valid @RequestBody AccountRequest request) {
@@ -59,6 +65,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Delete Account", description = "Deletes an account by its ID")
     public void deleteAccount(
             @Parameter(description = "Account ID") @PathVariable String id) {
