@@ -1,15 +1,12 @@
 package com.banking.api.controller;
 
-import com.banking.api.dto.AccountCreateRequest;
+import com.banking.api.dto.AccountRequest;
 import com.banking.api.dto.AccountResponse;
-import com.banking.api.dto.AccountUpdateRequest;
 import com.banking.api.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,13 +30,13 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping("/new")
+    @PostMapping
     @Operation(summary = "Create Account", description = "Creates a new bank account for the authenticated user")
-    public AccountResponse createAccount(@Valid @RequestBody AccountCreateRequest request) {
+    public AccountResponse createAccount(@Valid @RequestBody AccountRequest request) {
         return accountService.createAccount(request);
     }
 
-    @PostMapping
+    @GetMapping
     @Operation(summary = "Search Accounts", description = "Search accounts for the authenticated user. Filterable by account number and name")
     public List<AccountResponse> searchAccounts(
             @Parameter(description = "Account number filter") @RequestParam(required = false) String number,
@@ -54,10 +51,11 @@ public class AccountController {
         return accountService.getAccountById(id);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @Operation(summary = "Update Account", description = "Updates an existing account")
-    public AccountResponse updateAccount(@Valid @RequestBody AccountUpdateRequest request) {
-        return accountService.updateAccount(request);
+    public AccountResponse updateAccount(@Parameter(description = "Account ID") @PathVariable String id,
+                                         @Valid @RequestBody AccountRequest request) {
+        return accountService.updateAccount(id, request);
     }
 
     @DeleteMapping("/{id}")

@@ -66,11 +66,7 @@ public class UserService implements UserDetailsService {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime expiresAt = jwtService.getExpirationAsLocalDateTime(token);
 
-            return new LoginResponse(
-                    token,
-                    "Bearer",
-                    now,
-                    expiresAt);
+            return new LoginResponse(token, "Bearer", now, expiresAt);
         }
         throw new UsernameNotFoundException("Invalid user request!");
     }

@@ -9,7 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
@@ -24,14 +23,11 @@ public class User {
     @Column(name = "id")
     private String id;
     @Column(name = "username")
-    @NotNull(message = "Username should not be blank/empty/null")
     private String username;
     @Column(name = "password")
-    @NotNull(message = "Password should not be blank/empty/null")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @Column(name = "email")
-    @NotNull(message = "Email should not be blank/empty/null")
     private String email;
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

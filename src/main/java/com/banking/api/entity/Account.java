@@ -13,95 +13,89 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "accounts")
 public class Account {
-        @Id
-        @GeneratedValue(strategy = GenerationType.UUID)
-        @Column(name = "id")
-        private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
+    private String id;
+    @Column(name = "number")
+    private String number;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "user_email")
+    private String userEmail;
+    @Column(name = "balance")
+    private BigDecimal balance;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
-        @Column(name = "number")
-        private String number;
+    public Account() {
+    }
 
-        @Column(name = "name")
-        private String name;
+    public Account(String id, String number, String name, BigDecimal balance, LocalDateTime createdAt,
+                   LocalDateTime updatedAt) {
+        this.id = id;
+        this.number = number;
+        this.name = name;
+        this.balance = balance;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-        @Column(name = "balance")
-        private BigDecimal balance;
+    public String getId() {
+        return id;
+    }
 
-        @Column(name = "created_at")
-        private LocalDateTime createdAt;
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        @Column(name = "updated_at")
-        private LocalDateTime updatedAt;
+    public String getNumber() {
+        return number;
+    }
 
-        @Column(name = "user_email")
-        private String userEmail;
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
-        public Account() {
-        }
+    public String getName() {
+        return name;
+    }
 
-        public Account(String id, String number, String name, BigDecimal balance, LocalDateTime createdAt,
-                        LocalDateTime updatedAt) {
-                this.id = id;
-                this.number = number;
-                this.name = name;
-                this.balance = balance;
-                this.createdAt = createdAt;
-                this.updatedAt = updatedAt;
-        }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        public String getId() {
-                return id;
-        }
+    public BigDecimal getBalance() {
+        return balance;
+    }
 
-        public void setId(String id) {
-                this.id = id;
-        }
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
 
-        public String getNumber() {
-                return number;
-        }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
-        public void setNumber(String number) {
-                this.number = number;
-        }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
-        public String getName() {
-                return name;
-        }
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 
-        public void setName(String name) {
-                this.name = name;
-        }
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-        public BigDecimal getBalance() {
-                return balance;
-        }
+    public String getUserEmail() {
+        return userEmail;
+    }
 
-        public void setBalance(BigDecimal balance) {
-                this.balance = balance;
-        }
-
-        public LocalDateTime getCreatedAt() {
-                return createdAt;
-        }
-
-        public void setCreatedAt(LocalDateTime createdAt) {
-                this.createdAt = createdAt;
-        }
-
-        public LocalDateTime getUpdatedAt() {
-                return updatedAt;
-        }
-
-        public void setUpdatedAt(LocalDateTime updatedAt) {
-                this.updatedAt = updatedAt;
-        }
-
-        public String getUserEmail() {
-                return userEmail;
-        }
-
-        public void setUserEmail(String userEmail) {
-                this.userEmail = userEmail;
-        }
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
 }

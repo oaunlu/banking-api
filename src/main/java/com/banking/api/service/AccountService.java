@@ -1,8 +1,7 @@
 package com.banking.api.service;
 
-import com.banking.api.dto.AccountCreateRequest;
+import com.banking.api.dto.AccountRequest;
 import com.banking.api.dto.AccountResponse;
-import com.banking.api.dto.AccountUpdateRequest;
 import com.banking.api.entity.Account;
 import com.banking.api.repository.AccountRepository;
 import com.banking.api.security.SecurityService;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -23,14 +23,12 @@ public class AccountService {
         this.securityService = securityService;
     }
 
-    public AccountResponse createAccount(AccountCreateRequest request) {
+    public AccountResponse createAccount(AccountRequest request) {
         Account account = new Account();
         account.setNumber(generateAccountNumber());
         account.setName(request.name());
         account.setBalance(request.balance());
         account.setUserEmail(securityService.getAuthenticatedUsername());
-        account.setCreatedAt(LocalDateTime.now());
-        account.setUpdatedAt(LocalDateTime.now());
         Account savedAccount = accountRepository.save(account);
         return AccountResponse.fromAccount(savedAccount);
     }
@@ -45,20 +43,20 @@ public class AccountService {
                 .toList();
     }
 
-    public AccountResponse updateAccount(AccountUpdateRequest request) {
-        Account account = accountRepository.getAccountsById(request.id());
-        if (account != null) {
-            if (request.number() != null) {
-                account.setNumber(request.number());
-            }
-            if (request.name() != null) {
-                account.setName(request.name());
-            }
-            account.setUpdatedAt(LocalDateTime.now());
-            Account updatedAccount = accountRepository.save(account);
-            return AccountResponse.fromAccount(updatedAccount);
+    public AccountResponse updateAccount(String id, AccountRequest request) {
+        Account account = accountRepository.getAccountsById(id);
+        if (account == null) {
+            return null;
         }
-        return null;
+        if (Objects.nonNull(request.name())) {
+            account.setName(request.name());
+        }
+        if (Objects.nonNull(request.balance())) {
+            account.setBalance(request.balance());
+        }
+        account.setUpdatedAt(LocalDateTime.now());
+        Account updatedAccount = accountRepository.save(account);
+        return AccountResponse.fromAccount(updatedAccount);
     }
 
     public void deleteAccount(String id) {
